@@ -1,0 +1,182 @@
+content {
+    height: 850px;
+    width: 90%;
+}
+
+content p, h1, h2, h3, h4, h5, h6 {
+    color: #2f2c2b;
+    font-family: Roboto Mono;
+}
+
+/* main-content */
+#main-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 1900px;
+}
+
+#song-header {
+    background-color: #BDC3C7;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    padding: 30px 0px 30px 0px
+}
+
+#song-header h2 {
+    font-size: 45px;
+    margin: 0px;
+}
+
+#song-header > * {
+    margin: 7px 0px 7px 15px;
+}
+
+#song-header div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#song-title {
+    margin-top: 50px;
+    justify-content: space-between;
+}
+
+/* tab ui */
+#tab-ui {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+#tabs {
+    background-color: #BDC3C7;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-left: 175px;
+}
+
+#tab-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 150px;
+    background-color: #BDC3C7;
+    flex-wrap: wrap;
+}
+
+
+#tab-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    background-color: #ECF0F1;
+}
+
+#tab-header div {
+    display: flex;
+    flex-direction: row;
+    margin: 0px 150px 0px 150px;
+}
+
+#tab-header p {
+    margin: 0px;
+}
+
+#tab-header p:hover {
+    cursor: pointer;
+    color: #34495E;
+    text-shadow: 0px 0px 2px #2f2c2b;
+}
+
+#tab-header h3 {
+    font-size: 30px;
+    margin: 0px 10px 0px 10px;
+}
+
+/* instrument selector */
+#instruments {
+    background-color: #34495E;
+    height: 100%;
+    width: 100px;
+}
+
+#instruments div {
+    background-color: #34495E;
+    height: 100px;
+    width: 100px;
+}
+
+#instruments div:hover {
+    background-color: #2C3E50;
+}
+
+#instruments div:hover img {
+    opacity: 20%;
+}
+
+#instruments img {
+    width: 75px;
+    height: 75px;
+    margin: 15px;
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    opacity: 10%;
+}
+
+#selected-instrument {
+    background-color: #34495E !important;
+}
+
+#selected-instrument img {
+    -webkit-filter: invert(100%);
+    filter: invert(0%);
+    opacity: 100%;
+}
+
+/* intro */
+.tab-intro {
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    margin-left: -175px;
+    margin-top: 25px;
+}
+
+.tab-intro > * {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
+
+.tab-intro h3 {
+    margin: 0px;
+}
+
+.tab-intro p {
+    margin-right: -8px;
+}
+
+/* each tab measure */
+#tab-measure {
+    display: flex;
+    height: fit-content;
+    margin-top: 25px;
+}
+
+#tab-measure p {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    margin: 0px;
+    line-height: 0.75;
+}
+
+#measure-end {
+    writing-mode: vertical-rl;
+    text-orientation: upright;   
+}

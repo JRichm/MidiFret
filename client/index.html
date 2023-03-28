@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Rubik:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <header id="main-header">
+        <h1>MIDIFRET</h1>
+        <div>
+            <p>home</p>
+            <p>login</p>
+        </div>
+    </header>
+    <div id="blank" class="hidden">
+        <p>p</p>
+    </div>
+    <content>
+        <div id="main-list">
+            <div id="search-upload">
+                <div id="search-area">
+                    <input type="text" id="tab-search">
+                </div>
+                <div id="upload-button">
+                    <p>upload midi</p>
+                    <div id="upload-area" class="hidden">
+                        <form>
+                            <input type="file" id="fileInput" name="new-song-midi">
+                            <p id="status"></p>
+                            <p id="loading"></p>
+                            <div id="info-input">
+                                <input type="text" maxlength="20" id="new-song-name" placeholder="Song Name">
+                                <input type="text" maxlength="20" id="new-song-artist" placeholder="Artist">
+                            </div>
+                            <div id="info-input">
+                                <button id="cancel-upload-button">Back</button>
+                                <input type="submit" id="convert-button" value="Convert Midi">
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <ul id="song-list">
+                <li><div class="testsong">
+                    <div id="song-info">
+                        <div class="first-info-column">
+                            <p>Amber</p>
+                        </div>
+                        <div class="info-column">
+                            <p>311</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Notes: 38</p>
+                        </div>
+                    </div>
+                </div></li>
+                <li><div class="testsong">
+                    <div id="song-info">
+                        <div class="first-info-column">
+                            <p>My Own Summer</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Deftones</p>
+                            <p></p>
+                        </div>
+                        <div class="info-column">
+                            <p>Notes: 50</p>
+                            <p></p>
+                        </div>
+                    </div>
+                </div></li>
+                <li><div class="testsong">
+                    <div id="song-info">
+                        <div class="first-info-column">
+                            <p>Ain't Talkin' 'Bout Love</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Van Halen</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Notes: 158</p>
+                        </div>
+                    </div>
+                </div></li>
+                <li><div class="testsong">
+                    <div id="song-info">
+                        <div class="first-info-column">
+                            <p>Rock You Like A Hurricane</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Scorpions</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Notes: 238</p>
+                        </div>
+                    </div>
+                </div></li>
+                <li><div class="testsong">
+                    <div id="song-info">
+                        <div class="first-info-column">
+                            <p>Killing In The Name</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Rage Against The Machine</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Notes: 36</p>
+                        </div>
+                    </div>
+                </div></li>
+                <li><div class="testsong">
+                    <div id="song-info">
+                        <div class="first-info-column">
+                            <p>Seven Nation Army</p>
+                        </div>
+                        <div class="info-column">
+                            <p>The White Stripes</p>
+                        </div>
+                        <div class="info-column">
+                            <p>Notes: 36</p>
+                        </div>
+                    </div>
+                </div></li>
+            </ul>
+        </div>
+    </content>
+    <script src="index.mjs" type="module"></script>
+    <script src="../midi-parser.js" type="module"></script>
+</body>
+</html>

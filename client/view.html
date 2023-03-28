@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/view.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <header id="main-header">
+        <h1>MIDIFRET</h1>
+        <div>
+            <p>home</p>
+            <p>login</p>
+        </div>
+    </header>
+    <div id="blank" class="hidden">
+        <p>p</p>
+    </div>
+    <content>
+        <div id="main-content">
+            <header id="song-header">
+                <div id="song-title">
+                    <h2 id="h2-song"></h2>
+                </div>
+                <div>
+                    <p>Artist: </p>
+                    <p id="p-artist"></p>
+                </div>
+                <div>
+                    <p>Tuning: </p>
+                    <p id="p-tuning">E A D G B E</p>
+                </div>
+            </header>
+            <header id="tab-header">
+                <div>
+                    <p id="edit-tabs-button">edit tabs</p>
+                </div>
+                <div>
+                <div>
+                    <p id="publish-tabs-button">publish tabs</p>
+                </div>
+            </header>
+            <div id="tab-ui">
+                <div id="instruments">
+                    <div id="selected-instrument">
+                        <img src="https://flaticons.net/icon.php?slug_category=miscellaneous&slug_icon=electric-guitar-01">
+                    </div>
+                    <div>
+                        <img src="https://flaticons.net/icon.php?slug_category=miscellaneous&slug_icon=electric-guitar-01">
+                    </div>
+                </div>
+                <div id="tabs">
+                    <div id="tab-row">
+                        <div id="empty-left-column">
+                            <div class=tab-intro>
+                                <h1>TAB</h1>
+                                <h3>4-4</h3>
+                                <p>EBGDAE</p>
+                                <p>||||||</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </content>
+    <script src="controller.mjs" type="module"></script>
+    <script src="view.mjs" type="module"></script>
+</body>
+</html>
