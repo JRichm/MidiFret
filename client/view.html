@@ -23,8 +23,35 @@
             <p>login</p>
         </div>
     </header>
-    <div id="blank" class="hidden">
+    <!-- <div id="blank" class="hidden"> -->
+    <div id="blank" >
         <p>p</p>
+    </div>
+    <div id="pop-up" style="z-index: 11;">
+        <form id="pop-up-form">
+            <div id="pop-up-header">    
+                <input type="text" placeholder="username">
+                <input type="number" placeholder="pin">
+            </div>
+            <span id="pop-up-banner">
+                <p>Tab Details</p>
+            </span>
+            <div id="detail-area">
+                <div id="details">
+                    <div id="detail-column">
+                        <input type="text" id="det-song-name" value="Amber">
+                        <input type="text" id="det-song-notes" value="notes">
+                    </div>
+                    <div id="detail-column">
+                        <input type="text" id="det-song-artist" value="311">
+                        <input type="text" id="det-tab-author" value="JRichm">
+                    </div>
+                </div>
+                <div id="final-upload-button">
+                    <p>upload</p>
+                </div>
+            </div>
+        </form>
     </div>
     <content>
         <div id="main-content">
