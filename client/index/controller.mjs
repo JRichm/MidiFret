@@ -33,7 +33,7 @@ export function openUploadMenu() {
     console.log('upload button clicked');
 }
 
-export function uploadMidi(artistInfo) {
+export function uploadMidi() {
     const file = fileInput.files[0];
     if (!file) {
         status.innerText = 'Please select a file.';
@@ -89,9 +89,7 @@ export function uploadMidi(artistInfo) {
             setTimeout(() => loadingBar.innerText = `🎸|-♩---♩-♫-|-♩---♩-♫-|-♪-♪-♪-♩-|-`, i * 1000 + 965);
         }
 
-        let tabFile = [artistInfo, reader.result];
-
-        setTimeout(() => convertMidi(tabFile), 500);
+        setTimeout(() => convertMidi(reader.result), 500);
     }   
 }
 
@@ -138,10 +136,9 @@ export function createTabDisplayElement (res) {
 }
 
 // converter functions
-export function convertMidi(tabFile) {
+export function convertMidi(fileData) {
     console.log(`convert midi called`)
     let noteList = [];
-    let fileData = tabFile[1];
     // convert file data into 8bit array
     const uint8Array = new Uint8Array(fileData);
 
@@ -199,7 +196,7 @@ export function convertMidi(tabFile) {
     }
 
     console.log(noteList);
-    axios.post(`${baseURL}/newTab?songName=${tabFile[0][0]}&artistName=${tabFile[0][1]}`, noteList).then((res) => {
+    axios.post(`${baseURL}/newTab`, noteList).then((res) => {
         window.location.href = 'view.html';
     }).catch((err) => console.log(err));
 }

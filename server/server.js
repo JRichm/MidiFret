@@ -6,14 +6,14 @@ app.use(express.json());
 
 console.log(__dirname);
 
-app.use(express.static(`${__dirname}/../client`));
+app.use(express.static(`${__dirname}/../client/index/`));
+app.use(express.static(`${__dirname}/../client/`));
+app.use(express.static(`${__dirname}/../client/view`));
 app.use(express.static(`${__dirname}/../node_modules/midi-parser-js/src/`));
 
 const { writeTabs, getCurrentTab, setCurrentTabInfo } = require('./controller')
 
 app.post('/newTab', (req, res) => {
-    let { songName, artistName } = req.query;
-    setCurrentTabInfo(songName, artistName)
     writeTabs(req.body);
     res.status(200).send('request received on backend');
 });
