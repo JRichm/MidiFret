@@ -8,9 +8,6 @@ const uploadArea = document.getElementById('upload-area');
 const fileInput = document.getElementById('fileInput');
 const status = document.getElementById('status');
 const loadingBar = document.getElementById('loading');
-const tabRow = document.getElementById('tab-row');
-const songName = document.getElementById('h2-song');
-const songArtist = document.getElementById('p-artist');
 
 
 // import midi-parser-js
@@ -93,48 +90,6 @@ export function uploadMidi() {
     }   
 }
 
-export function createTabDisplayElement (res) {
-    console.log(res.data);
-    let measureData = [];
-    let measures = 0;
-
-    let tabInfo = res.data[0]
-    let tabData = res.data[1];
-
-    songName.innerHTML = tabInfo[0]
-    songArtist.innerHTML = tabInfo[1]
-
-    for (let c = 0; c < tabData.length; c++) {
-        measureData.push(tabData[c]);
-
-        if (measureData.length === 32) {
-            let tabMeasure = document.createElement('div');
-            tabMeasure.id = ('tab-measure');
-
-            for (let i = 0; i < measureData.length; i++) {        
-                let tabColumn = document.createElement('p');
-                let columnData = '';
-        
-                for (let j in measureData[i]) {
-                    columnData += measureData[i][j];
-                }
-            
-                tabColumn.innerHTML = columnData;
-                tabMeasure.appendChild(tabColumn);
-            }
-
-            let measureEnd = document.createElement('p');
-            measureEnd.innerHTML = '||||||';
-            tabMeasure.appendChild(measureEnd);
-            tabRow.appendChild(tabMeasure);
-                    
-            measures++;
-            console.log(measures);
-            measureData = []
-        }
-    }
-}
-
 // converter functions
 export function convertMidi(fileData) {
     console.log(`convert midi called`)
@@ -199,10 +154,4 @@ export function convertMidi(fileData) {
     axios.post(`${baseURL}/newTab`, noteList).then((res) => {
         window.location.href = 'view.html';
     }).catch((err) => console.log(err));
-}
-
-export function openTabs() {
-    axios.get(`${baseURL}/viewTab`).then((res) => {
-        createTabDisplayElement(res);
-    });
 }

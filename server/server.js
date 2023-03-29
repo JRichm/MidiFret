@@ -23,20 +23,8 @@ app.get('/viewTab', (req, res) => {
     res.status(200).send(getCurrentTab());
 });
 
-// app.get('/', (req, res) => {
-//     res.sendFile(__dirname +'/../../client/index.html');
-// });
-
-// app.get('/view', (req, res) => {
-//     res.sendFile(__dirname + '/../../client/view.html')
-// })
-
-// app.get('/css', (req, res) => {
-//     res.sendFile(__dirname + '/../../client/css/main.css');
-// });
-
-// app.get('/js', (req, res) => {
-//     res.sendFile(__dirname + '/../../client/index.mjs');
-// });
+app.post('/uploadTab', (req, res) => {
+    console.log(req.body);
+});
 
 app.listen(5550, () => console.log(`app is up on 5550`));

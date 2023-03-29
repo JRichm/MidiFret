@@ -2,7 +2,7 @@
 const baseURL = `http://localhost:5550`
 
 // import functions
-import { openUploadMenu, uploadMidi } from './controller.mjs';
+import { openUploadMenu, uploadMidi } from './index_controller.mjs';
 
 
 //id selectors

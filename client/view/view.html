@@ -24,10 +24,10 @@
         </div>
     </header>
     <!-- <div id="blank" class="hidden"> -->
-    <div id="blank" >
+    <div id="blank" class="hidden">
         <p>p</p>
     </div>
-    <div id="pop-up" style="z-index: 11;">
+    <div id="pop-up" style="z-index: 11;" class="hidden">
         <form id="pop-up-form">
             <span id="pop-up-banner">
                 <p>Enter Details</p>
@@ -36,8 +36,8 @@
                 <div id="details">
                     <div id="detail-column">
                         <input type="text" id="det-song-name" onClick="this.select();" placeholder="Song Name">
-                        <input type="text" id="det-tab-author" onClick="this.select();" placeholder="Song Arist">
-                        <input type="text" id="det-song-artist" onClick="this.select();" placeholder="Username">
+                        <input type="text" id="det-song-artist" onClick="this.select();" placeholder="Song Arist">
+                        <input type="text" id="det-tab-author" onClick="this.select();" placeholder="Username">
                     </div>
                 </div>
                 <div id="final-buttons">
@@ -95,7 +95,7 @@
             </div>
         </div>
     </content>
-    <script src="controller.mjs" type="module"></script>
+    <script src="./view_controller.mjs" type="module"></script>
     <script src="view.mjs" type="module"></script>
 </body>
 </html>

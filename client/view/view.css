@@ -252,3 +252,7 @@ content p, h1, h2, h3, h4, h5, h6 {
     background-color: #BDC3C7;
     cursor: pointer;
 }
+
+.hidden {
+    display: none !important;
+}
