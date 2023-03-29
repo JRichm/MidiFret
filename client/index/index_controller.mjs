@@ -27,8 +27,7 @@ export function loadSongs() {
 
         for (let i = 0; i < songList.length; i++) {
             let listElement = document.createElement('li');
-            listElement.addEventListener('click', openTabFromList);
-            listElement.id = songList[i].tab_id;
+            listElement.classList.add(`${songList[i].tab_id}`);
 
             let songInfo = document.createElement('div');
             songInfo.id = 'song-info';
@@ -47,6 +46,8 @@ export function loadSongs() {
 
             listElement.appendChild(songInfo);
             document.getElementById('song-list').appendChild(listElement);
+            
+            listElement.addEventListener('click', openTabFromList);
         }
     });
 }
@@ -187,7 +188,14 @@ export function convertMidi(fileData) {
 }
 
 function openTabFromList(e) {
-    axios.get(`${baseURL}/tab?tab_id=${e.target.parentElement.id}`).then((res) => {
+    let targetTabID = e.target.parentElement.className;
+    console.log(targetTabID);
+    if(!targetTabID) {
+        location.reload();
+        return;
+    }
+
+    axios.get(`${baseURL}/tab?tab_id=${targetTabID}`).then((res) => {
         window.location.href ='view.html';
     }).catch((err) => console.log(err));
 }

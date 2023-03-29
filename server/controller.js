@@ -150,11 +150,7 @@ module.exports = {
     getCurrentTab: () => {
         return [currentSongInfo, currentTabInView];
     },
-
-    setCurrentTabInfo: (name, artist) => {
-        currentSongInfo = [name, artist];
-    },
-
+    
     returnAllTabs: (req, res) => {
         sequelize.query(`
             SELECT tab_table.tab_id, tab_table.song_name, artist_table.artist_name, users_table.username
@@ -175,6 +171,11 @@ module.exports = {
         `).then(DBRES => {
             console.log(DBRES[0]);
             console.log(DBRES[0][0].tab_data);
+
+            sequelize.query(`
+                SELECT * FROM artist_table 
+                WHERE artist_id = ${DBRES[0][0].artist_id}
+            `).then(res => setCurrentTabInfo(DBRES[0][0].song_name, res[0][0].artist_name));            
 
             // Sample input string
             const input_str = DBRES[0][0].tab_data;
@@ -198,4 +199,9 @@ module.exports = {
             res.status(200).send(`tab opened successfully`);
         });
     }
+}
+
+
+function setCurrentTabInfo(name, artist) {
+    currentSongInfo = [name, artist];
 }

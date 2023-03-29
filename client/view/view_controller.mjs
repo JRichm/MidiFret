@@ -4,27 +4,32 @@ const baseURL = `http://localhost:5550`
 
 const tabRow = document.getElementById('tab-row');
 
-var songName = document.getElementById('det-song-name');
-var songArtist = document.getElementById('det-song-artist');
-var songAuthor = document.getElementById('det-tab-author');
+var songName = document.getElementById('h2-song');
+var artistName = document.getElementById('p-artist');
+
+var songNameInput = document.getElementById('det-song-name');
+var songArtistInput = document.getElementById('det-song-artist');
+var songAuthorInput = document.getElementById('det-tab-author');
 
 let tabData = []
 
 export function openTabs() {
     axios.get(`${baseURL}/viewTab`).then((res) => {
-        tabData = res;
-        console.log(`fart`)
-        console.log(res);
-        createTabDisplayElement(tabData);
+        let tabInfo = res.data;
+
+        songName.innerHTML = tabInfo[0][0];
+        artistName.innerHTML = tabInfo[0][1];
+
+        createTabDisplayElement(tabInfo[1]);
     });
 }
 
 export function uploadTabs(e) {
     if (e) e.preventDefault();
     let tabObj = {
-        songName: songName.value,
-        songArtist: songArtist.value,
-        songAuthor: songAuthor.value,
+        songName: songNameInput.value,
+        songArtist: songArtistInput.value,
+        songAuthor: songAuthorInput.value,
         tabData: tabData
     }
     axios.post(`${baseURL}/uploadTab`, tabObj).then((res) => {
@@ -32,13 +37,9 @@ export function uploadTabs(e) {
     }).catch((err) => console.log(err));
 }
 
-function createTabDisplayElement (res) {
-    console.log(res.data);
+function createTabDisplayElement (tabData) {
     let measureData = [];
     let measures = 0;
-
-    let tabInfo = res.data[0]
-    let tabData = res.data[1];
 
     for (let c = 0; c < tabData.length; c++) {
         measureData.push(tabData[c]);
