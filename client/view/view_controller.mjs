@@ -32,10 +32,6 @@ export function uploadTabs(e) {
     }).catch((err) => console.log(err));
 }
 
-// axios.post(`${baseURL}/newTab`, noteList).then((res) => {
-//     window.location.href = 'view.html';
-// }).catch((err) => console.log(err));
-
 function createTabDisplayElement (res) {
     console.log(res.data);
     let measureData = [];

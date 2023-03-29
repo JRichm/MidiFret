@@ -65,6 +65,90 @@ module.exports = {
         currentTabInView = tabData;
     },
 
+    uploadTabs: (req, res) => {
+        let { songName, songArtist, songAuthor } = req.body;
+        let tabData = req.body.tabData.data[1];
+        let tabDataString = '';
+        let artistID;
+        let authorID;
+
+        console.log(tabDataString);
+
+        // check if artist exists in db
+        sequelize.query(`
+            SELECT * FROM artist_table
+            WHERE artist_name = '${songArtist}'
+        `).then(DBRES => {
+            if (DBRES[0].length === 0) {
+                console.log(`artist ${songArtist} not found in db`)
+                sequelize.query(`
+                    INSERT INTO artist_table (artist_name) VALUES
+                    ('${songArtist}');
+            `).then(DBRES => {
+                console.log(`${songArtist} inserted into db`)
+                sequelize.query(`
+                    SELECT * FROM artist_table
+                    WHERE artist_name = '${songArtist}'
+            `).then(DBRES => {
+                artistID = DBRES[0][0].artist_id;
+                console.log(`${songArtist}'s artist_is is ${artistID}`)
+            })});
+
+            } else { sequelize.query(`
+                SELECT * FROM artist_table
+                WHERE artist_name = '${songArtist}'
+            `).then(DBRES => {
+                artistID = DBRES[0][0].artist_id
+                console.log(`artist ${songArtist} found in db with an id of ${artistID}`);
+            })}
+
+            
+        });
+
+        // check if username exists in db
+        sequelize.query(`
+            SELECT * FROM users_table
+            WHERE username = '${songAuthor}'
+        `).then(DBRES => {
+            if (DBRES[0].length === 0) {
+                console.log(`username ${songAuthor} not found in db`)
+                sequelize.query(`
+                    INSERT INTO users_table (username) VALUES
+                    ('${songAuthor}');
+            `).then(DBRES => { 
+                console.log(`${songAuthor} inserted into db`);
+                sequelize.query(`
+                    SELECT * FROM users_table
+                    WHERE username = '${songAuthor}'
+            `).then(DBRES => {
+                authorID = DBRES[0][0].user_id
+                console.log(`${songAuthor}'s user_id is ${authorID}`)
+            })});
+
+            } else { sequelize.query(`
+                SELECT * FROM users_table
+                WHERE username = '${songAuthor}'
+            `).then(DBRES => {
+                authorID = DBRES[0][0].user_id
+                console.log(`username ${songAuthor} found in db with an id of ${authorID}`);
+                
+                // serialize tabData into a string for upload
+                for (let c = 0; c < tabData.length; c++) {
+                    let newColumns = '['
+                    newColumns += tabData[c].toString() + ']';
+                    tabDataString += newColumns;
+                }
+            })}
+        });
+
+        setTimeout(() => {
+            sequelize.query(`
+                INSERT INTO tab_table (song_name, artist_id, author_id, tab_data) VALUES
+                ('${songName}', ${artistID}, ${authorID}, '${tabDataString}');
+            `).then(DBRES => res.status(200).send('tab uploaded successfully'))
+        }, 2000);
+    },
+
     getCurrentTab: () => {
         return [currentSongInfo, currentTabInView];
     },

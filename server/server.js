@@ -11,7 +11,7 @@ app.use(express.static(`${__dirname}/../client/index/`));
 app.use(express.static(`${__dirname}/../client/view`));
 app.use(express.static(`${__dirname}/../node_modules/midi-parser-js/src/`));
 
-const { writeTabs, getCurrentTab, setCurrentTabInfo, returnAllTabs } = require('./controller')
+const { writeTabs, getCurrentTab, setCurrentTabInfo, returnAllTabs, uploadTabs } = require('./controller')
 
 app.post('/newTab', (req, res) => {
     writeTabs(req.body);
@@ -23,9 +23,7 @@ app.get('/viewTab', (req, res) => {
     res.status(200).send(getCurrentTab());
 });
 
-app.post('/uploadTab', (req, res) => {
-    console.log(req.body);
-});
+app.post('/uploadTab', uploadTabs);
 
 app.get('/allTabs', returnAllTabs);
 
