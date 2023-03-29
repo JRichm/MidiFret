@@ -20,7 +20,9 @@ export function openTabs() {
         songName.innerHTML = tabInfo[0][0];
         artistName.innerHTML = tabInfo[0][1];
 
-        createTabDisplayElement(tabInfo[1]);
+        tabData = tabInfo[1]
+
+        createTabDisplayElement(tabData);
     });
 }
 
@@ -33,7 +35,7 @@ export function uploadTabs(e) {
         tabData: tabData
     }
     axios.post(`${baseURL}/uploadTab`, tabObj).then((res) => {
-        res.status(200).send('tab sent successfully');
+        updatePopUp(res.data);
     }).catch((err) => console.log(err));
 }
 
@@ -70,4 +72,16 @@ function createTabDisplayElement (tabData) {
             measureData = []
         }
     }
+}
+
+function updatePopUp(string) {
+    document.getElementById('detail-column').classList.add('hidden');
+    document.getElementById('pop-up-banner').classList.add('hidden');
+    document.getElementById('final-upload-button').classList.add('hidden');
+
+    let message = document.createElement('p');
+    message.id = 'message'
+    message.innerHTML = string;
+    
+    document.getElementById('details').appendChild(message);
 }

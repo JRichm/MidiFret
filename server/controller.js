@@ -28,9 +28,6 @@ module.exports = {
     
         while (writing) {
             if (noteData[notes] === undefined) {
-            console.log(`\n error reading note data`)
-            console.log(`${noteData[notes]} @ ${notes}`);
-            console.log(noteData);
             writing = false;
     
             // check if note event type is 'on'
@@ -62,17 +59,17 @@ module.exports = {
     
             if (notes > noteData.length - 1) writing = false;
         }
-        currentTabInView = tabData;
+        currentTabInView = [...tabData];
     },
 
     uploadTabs: (req, res) => {
-        let { songName, songArtist, songAuthor } = req.body;
-        let tabData = req.body.tabData.data[1];
+        let { songName, songArtist, songAuthor, tabData } = req.body;
         let tabDataString = '';
         let artistID;
         let authorID;
 
-        console.log(tabDataString);
+        console.log(`\n this is my tab data:`);
+        console.log(tabData);
 
         // check if artist exists in db
         sequelize.query(`
@@ -80,18 +77,15 @@ module.exports = {
             WHERE artist_name = '${songArtist}'
         `).then(DBRES => {
             if (DBRES[0].length === 0) {
-                console.log(`artist ${songArtist} not found in db`)
                 sequelize.query(`
                     INSERT INTO artist_table (artist_name) VALUES
                     ('${songArtist}');
             `).then(DBRES => {
-                console.log(`${songArtist} inserted into db`)
                 sequelize.query(`
                     SELECT * FROM artist_table
                     WHERE artist_name = '${songArtist}'
             `).then(DBRES => {
                 artistID = DBRES[0][0].artist_id;
-                console.log(`${songArtist}'s artist_is is ${artistID}`)
             })});
 
             } else { sequelize.query(`
@@ -99,7 +93,6 @@ module.exports = {
                 WHERE artist_name = '${songArtist}'
             `).then(DBRES => {
                 artistID = DBRES[0][0].artist_id
-                console.log(`artist ${songArtist} found in db with an id of ${artistID}`);
             })}
         });
 
@@ -109,18 +102,15 @@ module.exports = {
             WHERE username = '${songAuthor}'
         `).then(DBRES => {
             if (DBRES[0].length === 0) {
-                console.log(`username ${songAuthor} not found in db`)
                 sequelize.query(`
                     INSERT INTO users_table (username) VALUES
                     ('${songAuthor}');
             `).then(DBRES => { 
-                console.log(`${songAuthor} inserted into db`);
                 sequelize.query(`
                     SELECT * FROM users_table
                     WHERE username = '${songAuthor}'
             `).then(DBRES => {
                 authorID = DBRES[0][0].user_id
-                console.log(`${songAuthor}'s user_id is ${authorID}`)
             })});
 
             } else { sequelize.query(`
@@ -128,22 +118,23 @@ module.exports = {
                 WHERE username = '${songAuthor}'
             `).then(DBRES => {
                 authorID = DBRES[0][0].user_id
-                console.log(`username ${songAuthor} found in db with an id of ${authorID}`);
-                
-                // serialize tabData into a string for upload
-                for (let c = 0; c < tabData.length; c++) {
-                    let newColumns = '['
-                    newColumns += tabData[c].toString() + ']';
-                    tabDataString += newColumns;
-                }
             })}
         });
+
+        // serialize tabData into a string for upload
+        for (let c = 0; c < tabData.length; c++) {
+            let newColumns = '['
+            newColumns += tabData[c].toString() + ']';
+            console.log(newColumns);
+            tabDataString += newColumns;
+        }
 
         setTimeout(() => {
             sequelize.query(`
                 INSERT INTO tab_table (song_name, artist_id, author_id, tab_data) VALUES
                 ('${songName}', ${artistID}, ${authorID}, '${tabDataString}');
             `).then(DBRES => res.status(200).send('tab uploaded successfully'))
+            .catch(err => res.status(400).send(err));
         }, 2000);
     },
 
@@ -158,20 +149,15 @@ module.exports = {
             JOIN artist_table ON tab_table.artist_id = artist_table.artist_id
             JOIN users_table ON tab_table.author_id = users_table.user_id;
             `).then(DBRES => {
-                console.log(DBRES[0]);
                 res.status(200).send(DBRES[0]);
             });
     },
 
     returnTab: (req, res) => {
-        console.log(req.query);
         sequelize.query(`
             SELECT * FROM tab_table
             WHERE tab_id = ${req.query.tab_id}
         `).then(DBRES => {
-            console.log(DBRES[0]);
-            console.log(DBRES[0][0].tab_data);
-
             sequelize.query(`
                 SELECT * FROM artist_table 
                 WHERE artist_id = ${DBRES[0][0].artist_id}
@@ -196,7 +182,7 @@ module.exports = {
             // Output the result
             currentTabInView = tab_data;
 
-            res.status(200).send(`tab opened successfully`);
+            res.status(200).send(`Tab opened successfully!`);
         });
     }
 }

@@ -8,6 +8,15 @@ content p, h1, h2, h3, h4, h5, h6 {
     font-family: Roboto Mono;
 }
 
+#site-title:hover {
+    cursor: pointer;
+}
+
+#home-button:hover {
+    cursor: pointer;
+    color: #BDC3C7;
+}
+
 /* main-content */
 #main-content {
     display: flex;
@@ -232,6 +241,13 @@ content p, h1, h2, h3, h4, h5, h6 {
     text-align: center;
     font-size: 20px;
     max-width: 200px
+}
+
+#message {
+    margin: 30px;
+    font-size: 18px;
+    color: #ECF0F1;
+    font-style: italic;
 }
 
 #final-buttons {
