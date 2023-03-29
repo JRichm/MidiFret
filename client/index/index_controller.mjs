@@ -21,6 +21,34 @@ const noteTimeIncr = 48;
 let tuning = standardTuning;
 
 // front end functions
+export function loadSongs() {
+    axios.get(`${baseURL}/allTabs`).then((res) => {
+        console.log(res.data);
+        let songList = res.data;
+
+        for (let i = 0; i < songList.length; i++) {
+            let listElement = document.createElement('li');
+            let songInfo = document.createElement('div');
+            songInfo.id = 'song-info';
+
+            let songName = document.createElement('p');
+            songName.innerHTML = songList[i].song_name;
+            songInfo.appendChild(songName);
+
+            let songArtist = document.createElement('p');
+            songArtist.innerHTML = songList[i].artist_name;
+            songInfo.appendChild(songArtist);
+
+            let tabAuthor = document.createElement('p');
+            tabAuthor.innerHTML = songList[i].username;
+            songInfo.appendChild(tabAuthor);
+
+            listElement.appendChild(songInfo);
+            document.getElementById('song-list').appendChild(listElement);
+        }
+    });
+}
+
 export function openUploadMenu() {
     document.getElementById('blank').classList.remove('hidden');
     uploadArea.classList.remove('hidden');

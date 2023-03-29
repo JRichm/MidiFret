@@ -1,3 +1,17 @@
+const Sequelize = require('sequelize');
+require('dotenv').config();
+
+const { CONNECTION_STRING } = process.env;
+
+const sequelize = new Sequelize(CONNECTION_STRING, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            rejectUnauthorized: false
+        }
+    }
+});
+
 const standardTuning = [40, 45, 50, 55, 59, 64];
 const noteTimeIncr = 48;
 
@@ -57,5 +71,17 @@ module.exports = {
 
     setCurrentTabInfo: (name, artist) => {
         currentSongInfo = [name, artist];
+    },
+
+    returnAllTabs: (req, res) => {
+        sequelize.query(`
+            SELECT tab_table.song_name, artist_table.artist_name, users_table.username
+            FROM tab_table
+            JOIN artist_table ON tab_table.artist_id = artist_table.artist_id
+            JOIN users_table ON tab_table.author_id = users_table.user_id;
+            `).then(DBRES => {
+                console.log(DBRES[0]);
+                res.status(200).send(DBRES[0])
+            });
     }
 }

@@ -1,17 +1,17 @@
 const express = require('express');
 
 const app = express();
+const {SERVER_PORT} = process.env;
 
 app.use(express.json());
 
 console.log(__dirname);
 
 app.use(express.static(`${__dirname}/../client/index/`));
-app.use(express.static(`${__dirname}/../client/`));
 app.use(express.static(`${__dirname}/../client/view`));
 app.use(express.static(`${__dirname}/../node_modules/midi-parser-js/src/`));
 
-const { writeTabs, getCurrentTab, setCurrentTabInfo } = require('./controller')
+const { writeTabs, getCurrentTab, setCurrentTabInfo, returnAllTabs } = require('./controller')
 
 app.post('/newTab', (req, res) => {
     writeTabs(req.body);
@@ -26,5 +26,7 @@ app.get('/viewTab', (req, res) => {
 app.post('/uploadTab', (req, res) => {
     console.log(req.body);
 });
+
+app.get('/allTabs', returnAllTabs);
 
 app.listen(5550, () => console.log(`app is up on 5550`));

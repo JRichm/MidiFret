@@ -2,7 +2,7 @@
 const baseURL = `http://localhost:5550`
 
 // import functions
-import { openUploadMenu, uploadMidi } from './index_controller.mjs';
+import { openUploadMenu, uploadMidi, loadSongs } from './index_controller.mjs';
 
 
 //id selectors
@@ -16,4 +16,4 @@ submitBtn.addEventListener('click', (e) => {
     uploadMidi();
 });
 
-
+loadSongs();
