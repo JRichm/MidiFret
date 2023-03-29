@@ -9,7 +9,6 @@ const fileInput = document.getElementById('fileInput');
 const status = document.getElementById('status');
 const loadingBar = document.getElementById('loading');
 
-
 // import midi-parser-js
 import { MidiParser } from '/midi-parser.js'
 
@@ -28,6 +27,9 @@ export function loadSongs() {
 
         for (let i = 0; i < songList.length; i++) {
             let listElement = document.createElement('li');
+            listElement.addEventListener('click', openTabFromList);
+            listElement.id = songList[i].tab_id;
+
             let songInfo = document.createElement('div');
             songInfo.id = 'song-info';
 
@@ -181,5 +183,11 @@ export function convertMidi(fileData) {
     console.log(noteList);
     axios.post(`${baseURL}/newTab`, noteList).then((res) => {
         window.location.href = 'view.html';
+    }).catch((err) => console.log(err));
+}
+
+function openTabFromList(e) {
+    axios.get(`${baseURL}/tab?tab_id=${e.target.parentElement.id}`).then((res) => {
+        window.location.href ='view.html';
     }).catch((err) => console.log(err));
 }

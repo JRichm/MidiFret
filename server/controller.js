@@ -101,8 +101,6 @@ module.exports = {
                 artistID = DBRES[0][0].artist_id
                 console.log(`artist ${songArtist} found in db with an id of ${artistID}`);
             })}
-
-            
         });
 
         // check if username exists in db
@@ -159,13 +157,45 @@ module.exports = {
 
     returnAllTabs: (req, res) => {
         sequelize.query(`
-            SELECT tab_table.song_name, artist_table.artist_name, users_table.username
+            SELECT tab_table.tab_id, tab_table.song_name, artist_table.artist_name, users_table.username
             FROM tab_table
             JOIN artist_table ON tab_table.artist_id = artist_table.artist_id
             JOIN users_table ON tab_table.author_id = users_table.user_id;
             `).then(DBRES => {
                 console.log(DBRES[0]);
-                res.status(200).send(DBRES[0])
+                res.status(200).send(DBRES[0]);
             });
+    },
+
+    returnTab: (req, res) => {
+        console.log(req.query);
+        sequelize.query(`
+            SELECT * FROM tab_table
+            WHERE tab_id = ${req.query.tab_id}
+        `).then(DBRES => {
+            console.log(DBRES[0]);
+            console.log(DBRES[0][0].tab_data);
+
+            // Sample input string
+            const input_str = DBRES[0][0].tab_data;
+
+            // Split the input string into an array of repeating sections
+            const sections = input_str.split('][');
+
+            // Remove the opening and closing brackets from the first and last sections
+            sections[0] = sections[0].replace('[', '');
+            sections[sections.length-1] = sections[sections.length-1].replace(']', '');
+
+            // Split each section into an array of values
+            const values = sections.map(section => section.split(','));
+
+            // Create the 2D array
+            const tab_data = values.map(section => section.map(value => value.trim()));
+
+            // Output the result
+            currentTabInView = tab_data;
+
+            res.status(200).send(`tab opened successfully`);
+        });
     }
 }

@@ -11,7 +11,7 @@ app.use(express.static(`${__dirname}/../client/index/`));
 app.use(express.static(`${__dirname}/../client/view`));
 app.use(express.static(`${__dirname}/../node_modules/midi-parser-js/src/`));
 
-const { writeTabs, getCurrentTab, setCurrentTabInfo, returnAllTabs, uploadTabs } = require('./controller')
+const { writeTabs, getCurrentTab, setCurrentTabInfo, returnAllTabs, uploadTabs, returnTab } = require('./controller')
 
 app.post('/newTab', (req, res) => {
     writeTabs(req.body);
@@ -26,5 +26,7 @@ app.get('/viewTab', (req, res) => {
 app.post('/uploadTab', uploadTabs);
 
 app.get('/allTabs', returnAllTabs);
+
+app.get('/tab', returnTab);
 
 app.listen(5550, () => console.log(`app is up on 5550`));
