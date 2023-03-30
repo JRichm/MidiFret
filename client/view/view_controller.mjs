@@ -1,6 +1,6 @@
 
 // base URL
-const baseURL = `http://localhost:5550`
+const baseURL = ``
 
 const tabRow = document.getElementById('tab-row');
 
