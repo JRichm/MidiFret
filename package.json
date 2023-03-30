@@ -5,6 +5,7 @@
     "midi-parser-js": "^4.0.4",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
+    "rollbar": "^2.26.1",
     "sequelize": "^6.30.0"
   }
 }
