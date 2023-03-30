@@ -6,8 +6,6 @@ const {SERVER_PORT} = process.env;
 
 app.use(express.json());
 
-console.log(__dirname);
-
 app.use(express.static(`${__dirname}/../client/index/`));
 app.use(express.static(`${__dirname}/../client/view`));
 app.use(express.static(`${__dirname}/../node_modules/midi-parser-js/src/`));
@@ -15,9 +13,9 @@ app.use(express.static(`${__dirname}/../server`));
 
 const { writeTabs, getCurrentTab, setCurrentTabInfo, returnAllTabs, uploadTabs, returnTab } = require('./controller')
 
-app.get('/', (req, res) => {
-    res.sendFile('/../client/index/index.html');
-})
+// app.get('/', (req, res) => {
+//     res.sendFile('/../client/index/index.html');
+// })
 
 app.post('/newTab', (req, res) => {
     writeTabs(req.body);
