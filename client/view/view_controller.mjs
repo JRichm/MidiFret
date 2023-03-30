@@ -27,6 +27,7 @@ export function openTabs() {
 }
 
 export function uploadTabs(e) {
+    updatePopUp(`Uploading Tab...\nplease wait.`);
     if (e) e.preventDefault();
     let tabObj = {
         songName: songNameInput.value,
@@ -79,7 +80,9 @@ function updatePopUp(string) {
     document.getElementById('pop-up-banner').classList.add('hidden');
     document.getElementById('final-upload-button').classList.add('hidden');
 
-    let message = document.createElement('p');
+    // let message = document.createElement('p');
+    let message = document.getElementById('message');
+    message.classList.remove('hidden');
     message.id = 'message'
     message.innerHTML = string;
     

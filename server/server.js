@@ -1,6 +1,7 @@
 const express = require('express');
 
 const app = express();
+const { CONNECTION_STRING } = process.env;
 const {SERVER_PORT} = process.env;
 
 app.use(express.json());
