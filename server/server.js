@@ -14,6 +14,10 @@ app.use(express.static(`${__dirname}/../node_modules/midi-parser-js/src/`));
 
 const { writeTabs, getCurrentTab, setCurrentTabInfo, returnAllTabs, uploadTabs, returnTab } = require('./controller')
 
+app.get('/', (req, res) => {
+    res.sendFile('/../client/index/index.html');
+})
+
 app.post('/newTab', (req, res) => {
     writeTabs(req.body);
     res.status(200).send('request received on backend');
