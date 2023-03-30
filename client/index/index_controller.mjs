@@ -21,7 +21,7 @@ let tuning = standardTuning;
 
 // front end functions
 export function loadSongs() {
-    axios.get(`${baseURL}/allTabs`).then((res) => {
+    axios.get(`/allTabs`).then((res) => {
         console.log(res.data);
         let songList = res.data;
 
@@ -182,7 +182,7 @@ export function convertMidi(fileData) {
     }
 
     console.log(noteList);
-    axios.post(`${baseURL}/newTab`, noteList).then((res) => {
+    axios.post(`/newTab`, noteList).then((res) => {
         window.location.href = 'view.html';
     }).catch((err) => console.log(err));
 }
@@ -195,7 +195,7 @@ function openTabFromList(e) {
         return;
     }
 
-    axios.get(`${baseURL}/tab?tab_id=${targetTabID}`).then((res) => {
+    axios.get(`/tab?tab_id=${targetTabID}`).then((res) => {
         window.location.href ='view.html';
     }).catch((err) => console.log(err));
 }
