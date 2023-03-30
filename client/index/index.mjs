@@ -1,5 +1,5 @@
 // base URL
-const baseURL = `http://localhost:5550`
+const baseURL = ``
 
 // import functions
 import { openUploadMenu, uploadMidi, loadSongs } from './index_controller.mjs';
