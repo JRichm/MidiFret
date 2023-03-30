@@ -133,7 +133,7 @@ module.exports = {
             sequelize.query(`
                 INSERT INTO tab_table (song_name, artist_id, author_id, tab_data) VALUES
                 ('${songName}', ${artistID}, ${authorID}, '${tabDataString}');
-            `).then(DBRES => res.status(200).send('tab uploaded successfully'))
+            `).then(DBRES => res.status(200).send('Tab uploaded successfully!'))
             .catch(err => res.status(400).send(err));
         }, 2000);
     },
