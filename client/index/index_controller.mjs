@@ -123,7 +123,6 @@ export function uploadMidi() {
 
 // converter functions
 export function convertMidi(fileData) {
-    console.log(`convert midi called`)
     let noteList = [];
     // convert file data into 8bit array
     const uint8Array = new Uint8Array(fileData);

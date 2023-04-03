@@ -11,26 +11,28 @@ app.use(express.static(`${__dirname}/../client/view`));
 app.use(express.static(`${__dirname}/../node_modules/midi-parser-js/src/`));
 app.use(express.static(`${__dirname}/../server`));
 
-const { writeTabs, getCurrentTab, setCurrentTabInfo, returnAllTabs, uploadTabs, returnTab } = require('./controller')
+const { returnTab, returnAllTabs, getCurrentTab, writeTabs, uploadTabs, updateTabs } = require('./controller')
 
 // app.get('/', (req, res) => {
 //     res.sendFile('/../client/index/index.html');
 // })
+
+
+app.get('/tab', returnTab);
+
+app.get('/allTabs', returnAllTabs);
+
+app.get('/viewTab', (req, res) => {
+    res.status(200).send(getCurrentTab());
+});
 
 app.post('/newTab', (req, res) => {
     writeTabs(req.body);
     res.status(200).send('request received on backend');
 });
 
-app.get('/viewTab', (req, res) => {
-    console.log(getCurrentTab());
-    res.status(200).send(getCurrentTab());
-});
-
 app.post('/uploadTab', uploadTabs);
 
-app.get('/allTabs', returnAllTabs);
-
-app.get('/tab', returnTab);
+app.put('/saveTabEdits', updateTabs);
 
 app.listen(5550, () => console.log(`app is up on 5550`));

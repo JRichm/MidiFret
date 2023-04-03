@@ -32,6 +32,7 @@ let currentSongInfo = [];
 
 module.exports = {
     writeTabs: (noteData) => {
+        setCurrentTabInfo(undefined, undefined, undefined);
         let tuning = standardTuning;
         let tabData = [];
         let notes = 0;
@@ -71,7 +72,8 @@ module.exports = {
     
             if (notes > noteData.length - 1) writing = false;
         }
-        currentTabInView = [...tabData];
+
+        currentTabInView = tabData;
     },
 
     uploadTabs: (req, res) => {
@@ -79,9 +81,6 @@ module.exports = {
         let tabDataString = '';
         let artistID;
         let authorID;
-
-        console.log(`\n this is my tab data:`);
-        console.log(tabData);
 
         // check if artist exists in db
         sequelize.query(`
@@ -137,7 +136,6 @@ module.exports = {
         for (let c = 0; c < tabData.length; c++) {
             let newColumns = '['
             newColumns += tabData[c].toString() + ']';
-            console.log(newColumns);
             tabDataString += newColumns;
         }
 
@@ -173,7 +171,7 @@ module.exports = {
             sequelize.query(`
                 SELECT * FROM artist_table 
                 WHERE artist_id = ${DBRES[0][0].artist_id}
-            `).then(res => setCurrentTabInfo(DBRES[0][0].song_name, res[0][0].artist_name));            
+            `).then(res => setCurrentTabInfo(DBRES[0][0].song_name, res[0][0].artist_name, DBRES[0][0].tab_id));            
 
             // Sample input string
             const input_str = DBRES[0][0].tab_data;
@@ -196,10 +194,31 @@ module.exports = {
 
             res.status(200).send(`Tab opened successfully!`);
         });
+    }, 
+
+    updateTabs: (req, res) => {
+        let { tabID, songName, songArtist, tabData } = req.body;
+        let query = req.query;
+
+        console.log(query);
+        console.log(tabID);
+        console.log(songName);
+        console.log(songArtist);
+        console.log(tabData);
+
+        //CREATE SEQUELIZE FUNCITON HERE
+        //CREATE SEQUELIZE FUNCITON HERE
+        //CREATE SEQUELIZE FUNCITON HERE
+        //CREATE SEQUELIZE FUNCITON HERE
+        //CREATE SEQUELIZE FUNCITON HERE
+        //CREATE SEQUELIZE FUNCITON HERE
+        //CREATE SEQUELIZE FUNCITON HERE
     }
 }
 
 
-function setCurrentTabInfo(name, artist) {
-    currentSongInfo = [name, artist];
+function setCurrentTabInfo(name, artist, id) {
+    console.log(`setCurrentTabInfo()`);
+    currentSongInfo = [name, artist, id];
+    console.log(currentSongInfo);
 }

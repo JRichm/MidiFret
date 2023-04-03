@@ -1,8 +1,8 @@
-
 // base URL
 const baseURL = ``
 
 const tabRow = document.getElementById('tab-row');
+const noteEditor = document.getElementById('noteEditor');
 
 var songName = document.getElementById('h2-song');
 var artistName = document.getElementById('p-artist');
@@ -11,14 +11,25 @@ var songNameInput = document.getElementById('det-song-name');
 var songArtistInput = document.getElementById('det-song-artist');
 var songAuthorInput = document.getElementById('det-tab-author');
 
+
 let tabData = []
+let currentTabID;
+let targetNoteID;
+let editNoteInputs = document.getElementById('inputs').children;
+let open;
 
 export function openTabs() {
+    currentTabID = undefined;
     axios.get(`${baseURL}/viewTab`).then((res) => {
         let tabInfo = res.data;
 
         songName.innerHTML = tabInfo[0][0];
         artistName.innerHTML = tabInfo[0][1];
+        currentTabID = tabInfo[0][2];
+        
+        if (currentTabID > 0) {
+            document.getElementById('publish-tabs-button').innerHTML = 'save tabs'
+        }
 
         tabData = tabInfo[1]
 
@@ -51,7 +62,7 @@ function createTabDisplayElement (tabData) {
             let tabMeasure = document.createElement('div');
             tabMeasure.id = ('tab-measure');
 
-            for (let i = 0; i < measureData.length; i++) {        
+            for (let i = 0; i < measureData.length; i++) { 
                 let tabColumn = document.createElement('p');
                 let columnData = '';
         
@@ -60,6 +71,9 @@ function createTabDisplayElement (tabData) {
                 }
             
                 tabColumn.innerHTML = columnData;
+                tabColumn.id = (`${c + i - 31}`);
+                tabColumn.addEventListener('click', changeNote);
+
                 tabMeasure.appendChild(tabColumn);
             }
 
@@ -69,13 +83,12 @@ function createTabDisplayElement (tabData) {
             tabRow.appendChild(tabMeasure);
                     
             measures++;
-            console.log(measures);
-            measureData = []
-        }
-    }
-}
-
-function updatePopUp(string) {
+            measureData = [] 
+        } 
+    } 
+} 
+ 
+export function updatePopUp(string) { 
     document.getElementById('detail-column').classList.add('hidden');
     document.getElementById('pop-up-banner').classList.add('hidden');
     document.getElementById('final-upload-button').classList.add('hidden');
@@ -87,4 +100,48 @@ function updatePopUp(string) {
     message.innerHTML = string;
     
     document.getElementById('details').appendChild(message);
+}
+
+function changeNote(e) {
+    if (e.target.nodeName === 'P') {
+        targetNoteID = e.target.id;
+        let currentNote = e.target.innerHTML.split('');
+
+        for (let i = 0; i < editNoteInputs.length; i++) {
+            editNoteInputs[i].value = currentNote[i];
+        }
+
+        document.getElementById('blank').classList.remove('hidden');
+        noteEditor.classList.remove('hidden');
+        e.target.appendChild(noteEditor);
+    }    
+}
+
+export function saveEdit(e) {
+    let newColumn = tabData[targetNoteID];
+    document.getElementById(`${targetNoteID}`).innerHTML = '';
+    for (let i = 0; i < editNoteInputs.length; i++) {
+        newColumn[i] = editNoteInputs[i].value;
+        document.getElementById(`${targetNoteID}`).innerHTML += newColumn[i];
+    }
+    document.getElementById('blank').classList.add('hidden');
+    noteEditor.classList.add('hidden');
+    open = false;
+}
+
+export function closeEditor() {
+    open = false;
+}
+
+export function saveTabEdits(e) {
+    e.preventDefault();
+    let editedTabObj = {
+        tabID: currentTabID,
+        songName: document.getElementById('h2-song').innerHTML,
+        songArtist: document.getElementById('p-artist').innerHTML,
+        tabData: tabData
+    }
+    axios.put(`/saveTabEdits?tabID=${currentTabID}`, editedTabObj).then(res => {
+        console.log(res.data);
+    }).catch(err => console.log(err));
 }

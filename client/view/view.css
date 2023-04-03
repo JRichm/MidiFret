@@ -185,6 +185,14 @@ content p, h1, h2, h3, h4, h5, h6 {
     line-height: 0.75;
 }
 
+#tab-measure p:hover {
+    background-color: #ECF0F1;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: -2px;
+    padding: 2px;
+}
+
 #measure-end {
     writing-mode: vertical-rl;
     text-orientation: upright;   
@@ -267,6 +275,71 @@ content p, h1, h2, h3, h4, h5, h6 {
 #final-buttons button:hover {
     background-color: #BDC3C7;
     cursor: pointer;
+}
+
+#noteEditor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    z-index: 11;
+}
+
+#inputs {
+    display: flex;
+    background-color: #BDC3C7;
+    width: 30px;
+    padding: 4px;
+    margin-right: -38.5px;
+    border-radius: 10px;
+}
+
+#buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 45px;
+    margin-right: -68px;
+}
+
+#buttons button {
+    height: 35px;
+    width: 35px;
+    border-radius: 35px;
+    margin: 5px;
+    z-index: 15;
+}
+
+#save {
+    background-color: #34495E;
+    color: #ECF0F1;
+    font-weight: bold;
+    border-color: #2f2c2b;
+    border-style: solid;
+}
+
+#save:hover {
+    background-color: #2C3E50;
+    cursor: pointer;
+}
+
+#close {
+    background-color: #BDC3C7;
+    color: #2f2c2b;
+    font-weight: bold;
+    border-color: #2f2c2b;
+    border-style: solid;
+}
+
+#close:hover {
+    background-color: #a7adb1;
+    cursor: pointer;
+}
+#inputs input {
+    border: none;
+    width: 25px;
+    height: 19px;
+    text-align: center;
 }
 
 .hidden {
