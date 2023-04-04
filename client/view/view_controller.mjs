@@ -142,6 +142,7 @@ export function saveTabEdits(e) {
         tabData: tabData
     }
     axios.put(`/saveTabEdits?tabID=${currentTabID}`, editedTabObj).then(res => {
-        console.log(res.data);
+        document.getElementById('final-save-button').classList.add('hidden');
+        updatePopUp(res.data);
     }).catch(err => console.log(err));
 }

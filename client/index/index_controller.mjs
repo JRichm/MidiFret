@@ -134,10 +134,10 @@ export function convertMidi(fileData) {
 
         // loop through events of each track 
         for (let j in midiFile.track[i].event) {
-
             // handle various midi events
             let event = midiFile.track[i].event[j];
             let data = { type: -1, note: -1, delta: 0, };
+            console.log(event);
             switch(event.type) {
             // note off
             case 8: 
@@ -150,7 +150,6 @@ export function convertMidi(fileData) {
             case 9: 
                 data = { type: 1, note: event.data[0], delta: event.deltaTime };
                 noteList.push(data);
-                console.log(data);
                 // console.log(`${j} t:${event.type} ${event.data[0]} with delta:${event.deltaTime}`);
                 break;
     

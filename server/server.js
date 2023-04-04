@@ -11,7 +11,7 @@ app.use(express.static(`${__dirname}/../client/view`));
 app.use(express.static(`${__dirname}/../node_modules/midi-parser-js/src/`));
 app.use(express.static(`${__dirname}/../server`));
 
-const { returnTab, returnAllTabs, getCurrentTab, writeTabs, uploadTabs, updateTabs } = require('./controller')
+const { returnTab, returnAllTabs, getCurrentTab, writeTabs, uploadTabs, updateTabs } = require('./controller');
 
 // app.get('/', (req, res) => {
 //     res.sendFile('/../client/index/index.html');

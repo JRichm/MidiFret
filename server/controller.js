@@ -33,45 +33,95 @@ let currentSongInfo = [];
 module.exports = {
     writeTabs: (noteData) => {
         setCurrentTabInfo(undefined, undefined, undefined);
-        let tuning = standardTuning;
-        let tabData = [];
-        let notes = 0;
-        let writing = true;
         let emptyTabColumn = ['-', '-', '-', '-', '-', '-'];
-    
-        while (writing) {
-            if (noteData[notes] === undefined) {
-            writing = false;
-    
-            // check if note event type is 'on'
-            } else if (noteData[notes].type === 1) {
-                let noteDelta = +noteData[notes].delta / noteTimeIncr;
-    
-                // add length to previous note if necessary 
-                for (let i = 0; i < noteDelta; i++) {
-                   tabData.push(emptyTabColumn);
-                   tabData.push(emptyTabColumn);
-                }
+        let tuning = standardTuning;
+        
+        let tabData = [];
 
-                //loop through tuning array, starting at last index and couting down
+        // loop through data from midi converter
+        for (let i = 0; i < noteData.length; i++) {
+
+            // check if note event type is 'on'
+            if (noteData[i].type === 1) {
+
+                // check spacing between previous note
+                if (noteData[i].delta > 0) {
+                    let spacesToAdd = noteData[i].delta / 24;
+
+                    // push empty spaces to data array
+                    for (let h = 0; h < spacesToAdd; h++) {
+                        tabData.push(emptyTabColumn);
+                    }
+                }
+                
+                // get data from note and select lowest playable fret
                 for (let j = tuning.length - 1; j >= 0; j--) {
-                    if (noteData[notes].note >= tuning[j]) {
+                    if (noteData[i].note >= tuning[j]) {
                       let newTabColumn = [...emptyTabColumn];
-                      newTabColumn[tuning.length - j - 1] = noteData[notes].note - tuning[j];
-                      tabData.push(emptyTabColumn);
+
+                      // push converted tab dat to data array
+                      newTabColumn[tuning.length - j - 1] = noteData[i].note - tuning[j];
                       tabData.push(newTabColumn);
-                      notes++;
                       j = 0;
                     }
                 }
 
             // check if note event type is 'off'
-            } else if (noteData[notes].type === 0) {
-            notes++;
+            } else if (noteData[i].type === 0) {
+
+                // check how long note lasts
+                let spacesToAdd = (noteData[i].delta / 24) - 1;
+                console.log(spacesToAdd);
+
+                // push empty spaces to data array
+                for (let h = 0; h < spacesToAdd; h++) {
+                    tabData.push(emptyTabColumn);
+                }
+
             }
-    
-            if (notes > noteData.length - 1) writing = false;
         }
+
+
+        // let tuning = standardTuning;
+        // let tabData = [];
+        // let notes = 0;
+        // let writing = true;
+        // let emptyTabColumn = ['-', '-', '-', '-', '-', '-'];
+    
+        // while (writing) {
+        //     if (noteData[notes] === undefined) {
+        //     writing = false;
+    
+        //     // check if note event type is 'on'
+        //     } else if (noteData[notes].type === 1) {
+        //         console.log(noteData[notes].delta);
+        //         let noteDelta = +noteData[notes].delta / noteTimeIncr;
+    
+        //         // add length to previous note if necessary 
+        //         for (let i = 0; i < noteDelta; i++) {
+        //            tabData.push(emptyTabColumn);
+        //            tabData.push(emptyTabColumn);
+        //         }
+
+        //         //loop through tuning array, starting at last index and couting down
+                // for (let j = tuning.length - 1; j >= 0; j--) {
+                //     if (noteData[notes].note >= tuning[j]) {
+                //       let newTabColumn = [...emptyTabColumn];
+                //       newTabColumn[tuning.length - j - 1] = noteData[notes].note - tuning[j];
+                //       tabData.push(emptyTabColumn);
+                //       tabData.push(newTabColumn);
+                //       notes++;
+                //       j = 0;
+                //     }
+                // }
+
+        //     // check if note event type is 'off'
+        //     } else if (noteData[notes].type === 0) {
+        //     notes++;
+        //     }
+    
+            // if (notes > noteData.length - 1) writing = false;
+        // }
 
         currentTabInView = tabData;
     },
@@ -199,20 +249,26 @@ module.exports = {
     updateTabs: (req, res) => {
         let { tabID, songName, songArtist, tabData } = req.body;
         let query = req.query;
+        let serializedTabData = '';
 
-        console.log(query);
-        console.log(tabID);
-        console.log(songName);
-        console.log(songArtist);
-        console.log(tabData);
+        // console.log(query);
+        // console.log(tabID);
+        // console.log(songName);
+        // console.log(songArtist);
+        // console.log(tabData);
 
-        //CREATE SEQUELIZE FUNCITON HERE
-        //CREATE SEQUELIZE FUNCITON HERE
-        //CREATE SEQUELIZE FUNCITON HERE
-        //CREATE SEQUELIZE FUNCITON HERE
-        //CREATE SEQUELIZE FUNCITON HERE
-        //CREATE SEQUELIZE FUNCITON HERE
-        //CREATE SEQUELIZE FUNCITON HERE
+        // serialize tabData into a string for upload
+        for (let c = 0; c < tabData.length; c++) {
+            let newColumns = '['
+            newColumns += tabData[c].toString() + ']';
+            serializedTabData += newColumns;
+        }
+
+        sequelize.query(`
+            UPDATE tab_table
+            SET tab_data = '${serializedTabData}'
+            WHERE tab_id = ${tabID}
+        `).then(DBRES => res.send(`Tab edits saved successfully!`));
     }
 }
 
