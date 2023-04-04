@@ -1,10 +1,12 @@
-import { openTabs, uploadTabs, closeEditor, saveEdit, saveTabEdits, updatePopUp } from './view_controller.mjs'
+import { openTabs, uploadTabs, closeEditor, saveEdit, saveTabEdits, updatePopUp, deleteTabs } from './view_controller.mjs'
 
 // document selectors
 const popUpUploadButton = document.getElementById('final-upload-button');
 const popUpBackButton = document.getElementById('final-back-button');
 const publishButton = document.getElementById('publish-tabs-button');
 const saveTabsButton = document.getElementById('final-save-button');
+const deleteTabsButton = document.getElementById('delete-tabs-button');
+const finalDeleteButton = document.getElementById('delete');
 const editButton = document.getElementById('edit-tabs-button');
 const blackScreen = document.getElementById('blank');
 const popUp = document.getElementById('pop-up');
@@ -25,6 +27,8 @@ homeButton.addEventListener('click', goHome);
 editSaveButton.addEventListener('click', saveEdit);
 editCloseButton.addEventListener('click', closeEditScreen);
 saveTabsButton.addEventListener('click', saveTabEdits);
+deleteTabsButton.addEventListener('click', deleteTabsPopUp);
+finalDeleteButton.addEventListener('click', deleteTabs);
 
 // front end functions
 function showUploadMenu(e) {
@@ -55,5 +59,11 @@ function closeEditScreen() {
     closeEditor();
 }
 
+function deleteTabsPopUp() {
+    document.getElementById('blank').classList.remove('hidden');
+    document.getElementById('pop-up').classList.remove('hidden');
+    updatePopUp('Delete Tabs?')
+    finalDeleteButton.classList.remove('hidden');
+}
 // open tabs when page opens
 openTabs();

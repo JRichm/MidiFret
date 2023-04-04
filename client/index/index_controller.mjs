@@ -12,7 +12,7 @@ const loadingBar = document.getElementById('loading');
 // import midi-parser-js
 import { MidiParser } from '/midi-parser.js'
 
-// hard coded tuning, converter will recommend a tuning after converting and ask user for changes
+// hard coded tuning, converter should recommend a tuning after converting and ask user for changes
 const standardTuning = [40, 45, 50, 55, 59, 64];
 const dropTuning = [37, 42, 47, 52, 56, 61];
 const noteTimeIncr = 48;
@@ -21,10 +21,13 @@ let tuning = standardTuning;
 
 // front end functions
 export function loadSongs() {
+
+    // pull list of tabs from database and diplay them on the front end.
     axios.get(`/allTabs`).then((res) => {
         console.log(res.data);
         let songList = res.data;
 
+        // create front end element for each song from res list
         for (let i = 0; i < songList.length; i++) {
             let listElement = document.createElement('li');
             listElement.classList.add(`${songList[i].tab_id}`);
@@ -47,11 +50,13 @@ export function loadSongs() {
             listElement.appendChild(songInfo);
             document.getElementById('song-list').appendChild(listElement);
             
+            // add event listener to front end element, open tab once clicked
             listElement.addEventListener('click', openTabFromList);
         }
     });
 }
 
+// hide the search bar and expand the upload menu
 export function openUploadMenu() {
     document.getElementById('blank').classList.remove('hidden');
     uploadArea.classList.remove('hidden');
@@ -61,20 +66,30 @@ export function openUploadMenu() {
     console.log('upload button clicked');
 }
 
+// upload midi and gather midi info
 export function uploadMidi() {
+
     const file = fileInput.files[0];
+
+    // check if user input a file
     if (!file) {
         status.innerText = 'Please select a file.';
         return;
     }
+
+    // check if users file has .mid extension
     if (file.type !== 'audio/mid') {
         status.innerText = 'File must be .mid or .midi';
         return;
     }
+
+    // check if users file is greater than 1gb
     if (file.size > 1000000000) {
         status.innerText = 'File too large.';
         return;
     }
+
+    // pass midi data through FileReader
     status.innerText = 'Uploading file...';
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
@@ -116,7 +131,8 @@ export function uploadMidi() {
             setTimeout(() => loadingBar.innerText = `🎸|-♩---♩-♫-|-♩---♩-♫-|-♪-♪-♪-♩-|`, i * 1000 + 934);
             setTimeout(() => loadingBar.innerText = `🎸|-♩---♩-♫-|-♩---♩-♫-|-♪-♪-♪-♩-|-`, i * 1000 + 965);
         }
-
+        
+        // convert data from fileReader
         setTimeout(() => convertMidi(reader.result), 500);
     }   
 }
@@ -124,75 +140,52 @@ export function uploadMidi() {
 // converter functions
 export function convertMidi(fileData) {
     let noteList = [];
+
     // convert file data into 8bit array
     const uint8Array = new Uint8Array(fileData);
 
     // parse midi file
     const midiFile = MidiParser.parse(uint8Array, (obj) => console.log(obj));
 
+    // loop through tracks
     for (let i in midiFile.track) {
 
         // loop through events of each track 
         for (let j in midiFile.track[i].event) {
-            // handle various midi events
             let event = midiFile.track[i].event[j];
             let data = { type: -1, note: -1, delta: 0, };
-            console.log(event);
-            switch(event.type) {
-            // note off
-            case 8: 
+            
+            // handle various midi events
+            if (event.type === 8) {
                 data = { type: 0, note: event.data[0], delta: event.deltaTime };
                 noteList.push(data);
-                // console.log(`${j} t:${event.type} ${event.data[0]} with delta:${event.deltaTime}`);
-                break;
-    
-            // note on
-            case 9: 
+            } else if (event.type === 9) {
                 data = { type: 1, note: event.data[0], delta: event.deltaTime };
                 noteList.push(data);
-                // console.log(`${j} t:${event.type} ${event.data[0]} with delta:${event.deltaTime}`);
-                break;
-    
-            // controller
-            case 11: 
-                data = { type: `controller`, channel: event.channel, data: event.data };
-                // console.log(` ${j} t:${event.type} ch:${event.channel} delta:${event.deltaTime} - ${event.data}`);
-                break;
-    
-            // program change
-            case 12: 
-                data = { type: `program change`, channel: event.channel, data: event.data };
-                // console.log(` ${j} t:${event.type} ch:${event.channel} delta:${event.deltaTime} - ${event.data}`);
-                break;
-    
-                // meta event
-            case 255: 
-                data = { type: `meta event`, metaType: event.metaType, data: event.data };
-                // console.log(` ${j} t:${event.type} m:${event.metaType} delta:${event.deltaTime} - ${event.data}`);
-                break;
-    
-            default:
-                // console.log(` ${j} t:${event.type} delta:${event.deltaTime} - ${event.data}`);
+            } else {
                 data = { type: event.type, note: `index: ${j}`, delta: event.deltaTime };
-                break;
             }
         }
     }
 
-    console.log(noteList);
+    // post new tabs to server and go to view.html
     axios.post(`/newTab`, noteList).then((res) => {
         window.location.href = 'view.html';
     }).catch((err) => console.log(err));
 }
 
+// open a tab from index.html by clicking an item from the list
 function openTabFromList(e) {
+    // tab_id from parent div class' name
     let targetTabID = e.target.parentElement.className;
-    console.log(targetTabID);
+
+    // return if no ID is found, refresh the page
     if(!targetTabID) {
         location.reload();
         return;
     }
 
+    // use the id from classname to make a get request to server
     axios.get(`/tab?tab_id=${targetTabID}`).then((res) => {
         window.location.href ='view.html';
     }).catch((err) => console.log(err));

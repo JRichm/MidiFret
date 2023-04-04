@@ -248,7 +248,6 @@ module.exports = {
 
     updateTabs: (req, res) => {
         let { tabID, songName, songArtist, tabData } = req.body;
-        let query = req.query;
         let serializedTabData = '';
 
         // console.log(query);
@@ -269,6 +268,16 @@ module.exports = {
             SET tab_data = '${serializedTabData}'
             WHERE tab_id = ${tabID}
         `).then(DBRES => res.send(`Tab edits saved successfully!`));
+    },
+
+    deleteTabs: (req, res) => {
+        let query = req.query
+        console.log(req.query);
+        console.log(typeof(req.query));
+        sequelize.query(`
+            DELETE FROM tab_table
+            WHERE tab_id = ${query.tabID}
+        `).then(DBRES => { res.status(200).send(`Tab deleted successfully!`) });
     }
 }
 

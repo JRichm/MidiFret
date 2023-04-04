@@ -29,6 +29,8 @@ export function openTabs() {
         
         if (currentTabID > 0) {
             document.getElementById('publish-tabs-button').innerHTML = 'save tabs'
+        } else {
+            document.getElementById('delete-tabs-button').classList.add('hidden');
         }
 
         tabData = tabInfo[1]
@@ -134,7 +136,7 @@ export function closeEditor() {
 }
 
 export function saveTabEdits(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     let editedTabObj = {
         tabID: currentTabID,
         songName: document.getElementById('h2-song').innerHTML,
@@ -144,5 +146,15 @@ export function saveTabEdits(e) {
     axios.put(`/saveTabEdits?tabID=${currentTabID}`, editedTabObj).then(res => {
         document.getElementById('final-save-button').classList.add('hidden');
         updatePopUp(res.data);
+    }).catch(err => console.log(err));
+}
+
+export function deleteTabs(e) {
+    if (e) e.preventDefault();
+    axios.delete(`/deleteTabs?tabID=${currentTabID}`).then(res => {
+        console.log(res.data);
+        updatePopUp(res.data);
+        document.getElementById('delete').classList.add('hidden');
+        setTimeout(() => window.location.href = 'index.html');
     }).catch(err => console.log(err));
 }
