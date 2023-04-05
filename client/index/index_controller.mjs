@@ -176,20 +176,25 @@ export function convertMidi(fileData) {
 
 // open a tab from index.html by clicking an item from the list
 function openTabFromList(e) {
-    // // tab_id from parent div class' name
-    // let targetTabID = e.target.parentElement.className;
+    let targetTabID;
 
-    // // return if no ID is found, refresh the page
-    // if(!targetTabID) {
-    //     location.reload();
-    //     return;
-    // }
+    if (e.target.parentElement.id === 'song-info') {
+        targetTabID = e.target.parentElement.parentElement.className;
+    } else {
+        targetTabID = e.target.parentElement.className;
+    }
+    
+    console.log(targetTabID);
 
-    // // use the id from classname to make a get request to server
-    // axios.get(`/tab?tab_id=${targetTabID}`).then((res) => {
-    //     window.location.href ='view.html';
-    // }).catch((err) => console.log(err));
+    // return if no ID is found, refresh the page
+    if(!targetTabID) {
+        location.reload();
+        return;
+    }
 
-    console.log(e.target.parentElement);
-    console.log(e.target.parentElement.className);
+    // use the id from classname to make a get request to server
+    axios.get(`/tab?tab_id=${targetTabID}`).then((res) => {
+        window.location.href ='view.html';
+    }).catch((err) => console.log(err));
+
 }
