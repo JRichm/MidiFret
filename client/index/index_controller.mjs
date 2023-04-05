@@ -176,16 +176,19 @@ export function convertMidi(fileData) {
 
 // open a tab from index.html by clicking an item from the list
 function openTabFromList(e) {
-    // tab_id from parent div class' name
-    let targetTabID = e.target.parentElement.className;
+    // // tab_id from parent div class' name
+    // let targetTabID = e.target.parentElement.className;
 
-    // return if no ID is found, refresh the page
-    if(!targetTabID) {
-        console.log(e.target.parentElement.className);
-    }
+    // // return if no ID is found, refresh the page
+    // if(!targetTabID) {
+    //     location.reload();
+    //     return;
+    // }
 
-    // use the id from classname to make a get request to server
-    axios.get(`/tab?tab_id=${targetTabID}`).then((res) => {
-        window.location.href ='view.html';
-    }).catch((err) => console.log(err));
+    // // use the id from classname to make a get request to server
+    // axios.get(`/tab?tab_id=${targetTabID}`).then((res) => {
+    //     window.location.href ='view.html';
+    // }).catch((err) => console.log(err));
+
+    console.log(e.target.parentElement.className);
 }
