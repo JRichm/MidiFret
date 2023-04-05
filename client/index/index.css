@@ -12,6 +12,10 @@ content {
     height: 850px;
 }
 
+#site-title {
+    cursor: pointer;
+}
+
 
 #main-header {
     display: flex;
@@ -61,9 +65,10 @@ content {
 }
 
 #tab-search {
-    width: 200%;
+    width: 182%;
     margin-top: 20px;
     height: 45px;
+    font-size: 15px;
 }
 
 #upload-button {
@@ -125,6 +130,11 @@ content {
     height: 50px;
     justify-content:space-evenly;
     align-items: center;
+}
+
+#song-info p {
+    text-align: center;
+    width: 200px;
 }
 
 .info-column {

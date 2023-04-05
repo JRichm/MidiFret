@@ -11,13 +11,13 @@ var songNameInput = document.getElementById('det-song-name');
 var songArtistInput = document.getElementById('det-song-artist');
 var songAuthorInput = document.getElementById('det-tab-author');
 
-
 let tabData = []
 let currentTabID;
 let targetNoteID;
 let editNoteInputs = document.getElementById('inputs').children;
 let open;
 
+//
 export function openTabs() {
     currentTabID = undefined;
     axios.get(`${baseURL}/viewTab`).then((res) => {

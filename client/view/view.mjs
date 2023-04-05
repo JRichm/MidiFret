@@ -13,6 +13,7 @@ const popUp = document.getElementById('pop-up');
 
 const siteTitle = document.getElementById('site-title');
 const homeButton = document.getElementById('home-button');
+const tabBlock = document.getElementById(`tab-block`);
 
 const editSaveButton = document.getElementById('save');
 const editCloseButton = document.getElementById('close');
@@ -24,6 +25,7 @@ popUpBackButton.addEventListener('click', closeUploadScreen);
 popUpUploadButton.addEventListener('click', uploadTabs);
 siteTitle.addEventListener('click', goHome);
 homeButton.addEventListener('click', goHome);
+editButton.addEventListener('click', editTabs);
 editSaveButton.addEventListener('click', saveEdit);
 editCloseButton.addEventListener('click', closeEditScreen);
 saveTabsButton.addEventListener('click', saveTabEdits);
@@ -51,6 +53,15 @@ function closeUploadScreen(e) {
 
 function goHome(e) {
     window.location.href = 'index.html';
+}
+
+function editTabs() {
+    if (tabBlock.className === 'hidden') {
+        tabBlock.classList.remove('hidden');
+    } else {
+        tabBlock.classList.add('hidden');
+    }
+    
 }
 
 function closeEditScreen() {
