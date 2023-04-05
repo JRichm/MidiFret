@@ -190,5 +190,6 @@ function openTabFromList(e) {
     //     window.location.href ='view.html';
     // }).catch((err) => console.log(err));
 
+    console.log(e.target.parentElement);
     console.log(e.target.parentElement.className);
 }
