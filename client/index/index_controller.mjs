@@ -181,8 +181,7 @@ function openTabFromList(e) {
 
     // return if no ID is found, refresh the page
     if(!targetTabID) {
-        location.reload();
-        return;
+        console.log(e.target.parentElement.className);
     }
 
     // use the id from classname to make a get request to server
